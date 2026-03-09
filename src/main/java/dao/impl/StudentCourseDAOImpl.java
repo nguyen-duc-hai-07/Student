@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.StudentCourseDAO;
+import dto.StudentCourseDTO;
 import model.StudentCourse;
 
 import java.sql.Connection;
@@ -39,32 +40,32 @@ public class StudentCourseDAOImpl implements StudentCourseDAO {
         return null;
     }
 
-    public List<StudentCourse> findAll(Connection conn) throws Exception {
+    public List<StudentCourseDTO> findAll(Connection conn) throws Exception {
         String sql = """
                          SELECT sc.id , s.name AS studentName, c.name AS courseName, c.credits 
                          FROM student_course sc
                          JOIN students s ON sc.student_id = s.id
                          JOIN courses c ON sc.course_id = c.id
                          """;
-        List<StudentCourse> studentCourses = new ArrayList<>();
+        List<StudentCourseDTO> studentCourseDTOs = new ArrayList<>();
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                StudentCourse studentCourse = new StudentCourse();
-                studentCourse.setId(rs.getInt("id"));
-                studentCourse.setStudentName(rs.getString("studentName"));
-                studentCourse.setCourseName(rs.getString("courseName"));
-                studentCourse.setCredits(rs.getString("credits"));
-                studentCourses.add(studentCourse);
+                StudentCourseDTO studentCourseDTO = new StudentCourseDTO();
+                studentCourseDTO.setId(rs.getInt("id"));
+                studentCourseDTO.setStudentName(rs.getString("studentName"));
+                studentCourseDTO.setCourseName(rs.getString("courseName"));
+                studentCourseDTO.setCredits(rs.getInt("credits"));
+                studentCourseDTOs.add(studentCourseDTO);
             }
-            return studentCourses;
+            return studentCourseDTOs;
         }
     }
 
 
-    public List<StudentCourse> findByStudent(Connection conn , int studentId) throws Exception {
-        List<StudentCourse> studentCourses = new ArrayList<>();
+    public List<StudentCourseDTO> findByStudent(Connection conn , int studentId) throws Exception {
+        List<StudentCourseDTO> studentCourses = new ArrayList<>();
         String sql = """
                 SELECT sc.id , s.name AS studentName, c.name AS courseName, c.credits 
                 FROM student_course sc
@@ -77,19 +78,19 @@ public class StudentCourseDAOImpl implements StudentCourseDAO {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                StudentCourse studentCourse = new StudentCourse();
-                studentCourse.setId(rs.getInt("id"));
-                studentCourse.setStudentName(rs.getString("studentName"));
-                studentCourse.setCourseName(rs.getString("courseName"));
-                studentCourse.setCredits(rs.getString("credits"));
-                studentCourses.add(studentCourse);
+                StudentCourseDTO studentCourseDTO = new StudentCourseDTO();
+                studentCourseDTO.setId(rs.getInt("id"));
+                studentCourseDTO.setStudentName(rs.getString("studentName"));
+                studentCourseDTO.setCourseName(rs.getString("courseName"));
+                studentCourseDTO.setCredits(rs.getInt("credits"));
+                studentCourses.add(studentCourseDTO);
             }
             return studentCourses;
         }
     }
 
-    public List<StudentCourse> findByCourse(Connection conn , int CourseId) throws Exception {
-        List<StudentCourse> studentCourses = new ArrayList<>();
+    public List<StudentCourseDTO> findByCourse(Connection conn , int CourseId) throws Exception {
+        List<StudentCourseDTO> studentCourses = new ArrayList<>();
         String sql = """
                 SELECT sc.id , s.name AS studentName, c.name AS courseName, c.credits 
                 FROM student_course sc
@@ -103,12 +104,12 @@ public class StudentCourseDAOImpl implements StudentCourseDAO {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                StudentCourse studentCourse = new StudentCourse();
-                studentCourse.setId(rs.getInt("id"));
-                studentCourse.setStudentName(rs.getString("studentName"));
-                studentCourse.setCourseName(rs.getString("courseName"));
-                studentCourse.setCredits(rs.getString("credits"));
-                studentCourses.add(studentCourse);
+                StudentCourseDTO studentCourseDTO = new StudentCourseDTO();
+                studentCourseDTO.setId(rs.getInt("id"));
+                studentCourseDTO.setStudentName(rs.getString("studentName"));
+                studentCourseDTO.setCourseName(rs.getString("courseName"));
+                studentCourseDTO.setCredits(rs.getInt("credits"));
+                studentCourses.add(studentCourseDTO);
             }
             return studentCourses;
         }

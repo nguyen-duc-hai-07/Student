@@ -7,6 +7,7 @@ import dao.StudentDAO;
 import dao.impl.CourseDAOImpl;
 import dao.impl.StudentCourseDAOImpl;
 import dao.impl.StudentDAOImpl;
+import dto.StudentCourseDTO;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
@@ -102,11 +103,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<StudentCourse> viewAllEnrollments() throws Exception {
+    public List<StudentCourseDTO> viewAllEnrollments() throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<StudentCourse> studentCourses = studentCourseDAO.findAll(conn);
+            List<StudentCourseDTO> studentCourses = studentCourseDAO.findAll(conn);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
@@ -123,11 +124,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<StudentCourse> viewStudentToCourses(int studentId) throws Exception {
+    public List<StudentCourseDTO> viewStudentToCourses(int studentId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<StudentCourse> studentCourses = studentCourseDAO.findByStudent(conn, studentId);
+            List<StudentCourseDTO> studentCourses = studentCourseDAO.findByStudent(conn, studentId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
@@ -144,11 +145,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<StudentCourse> viewCourseToStudents(int courseId) throws Exception {
+    public List<StudentCourseDTO> viewCourseToStudents(int courseId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<StudentCourse> studentCourses = studentCourseDAO.findByCourse(conn, courseId);
+            List<StudentCourseDTO> studentCourses = studentCourseDAO.findByCourse(conn, courseId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {

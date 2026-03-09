@@ -1,5 +1,6 @@
 package dao;
 
+import dto.StudentCourseDTO;
 import model.Course;
 import model.StudentCourse;
 
@@ -12,11 +13,11 @@ public interface StudentCourseDAO {
 
     StudentCourse findById(Connection conn, int id) throws Exception;
 
-    List<StudentCourse> findAll(Connection conn) throws Exception;
+    List<StudentCourseDTO> findAll(Connection conn) throws Exception;
 
-    List<StudentCourse> findByStudent(Connection conn , int studentId) throws Exception;
+    List<StudentCourseDTO> findByStudent(Connection conn , int studentId) throws Exception;
 
-    List<StudentCourse> findByCourse(Connection conn , int CourseId) throws Exception;
+    List<StudentCourseDTO> findByCourse(Connection conn , int CourseId) throws Exception;
 
     void delete(Connection conn, int id) throws Exception;
 

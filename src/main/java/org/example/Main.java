@@ -1,5 +1,6 @@
 package org.example;
 
+import dto.StudentCourseDTO;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
@@ -97,7 +98,7 @@ public class Main {
 
      static void ViewAll() throws Exception {
 
-         List<StudentCourse> studentCourses = enrollmentService.viewAllEnrollments();
+         List<StudentCourseDTO> studentCourses = enrollmentService.viewAllEnrollments();
          studentCourses.forEach(System.out::println);
 
      }
@@ -108,7 +109,7 @@ public class Main {
          int studentId = sc.nextInt();
          sc.nextLine();
 
-         List<StudentCourse> studentCourses = enrollmentService.viewStudentToCourses(studentId);
+         List<StudentCourseDTO> studentCourses = enrollmentService.viewStudentToCourses(studentId);
          studentCourses.forEach(System.out::println);
 
      }
@@ -118,7 +119,7 @@ public class Main {
          int courseId = sc.nextInt();
          sc.nextLine();
 
-         List<StudentCourse> studentCourses = enrollmentService.viewCourseToStudents(courseId);
+         List<StudentCourseDTO> studentCourses = enrollmentService.viewCourseToStudents(courseId);
          studentCourses.forEach(System.out::println);
 
      }
