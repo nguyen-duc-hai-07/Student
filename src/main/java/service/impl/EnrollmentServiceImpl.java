@@ -234,4 +234,46 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             conn.close();
         }
     }
+
+    public List<Student> findAllStudent() throws Exception {
+        Connection conn = null;
+        try {
+            conn = pool.getConnection();
+            List<Student> students = studentDAO.findAll(conn);
+            conn.commit();
+            return students;
+        } catch (Exception e) {
+            try {
+                if(conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            throw e;
+        } finally {
+            conn.close();
+        }
+    }
+
+    public List<Course> findAllCourse() throws Exception {
+        Connection conn = null;
+        try {
+            conn = pool.getConnection();
+            List<Course> courses = courseDAO.findAll(conn);
+            conn.commit();
+            return courses;
+        } catch (Exception e) {
+            try {
+                if(conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            throw e;
+        } finally {
+            conn.close();
+        }
+    }
 }

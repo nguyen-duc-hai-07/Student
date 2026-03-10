@@ -24,6 +24,8 @@ public class Main {
              System.out.println("7. Cancel enrollment");
              System.out.println("8. delete student");
              System.out.println("9. delete course");
+             System.out.println("10. Find all student");
+             System.out.println("11. Find all course");
              System.out.println("0. Exit");
              System.out.println("Nhập lựa chọn: ");
              int choice = sc.nextInt();
@@ -56,6 +58,12 @@ public class Main {
                      break;
                  case 9:
                      DeleteCourse();
+                     break;
+                 case 10:
+                     FindAllStudent();
+                     break;
+                 case 11:
+                     FindAllCourse();
                      break;
                  case 0:
                      return;
@@ -144,10 +152,21 @@ public class Main {
          sc.nextLine();
          enrollmentService.deleteStudent(id);
      }
+
      static void DeleteCourse() throws Exception {
          System.out.print("Nhập course id: ");
          int id = sc.nextInt();
          sc.nextLine();
          enrollmentService.deleteCourse(id);
+     }
+
+     static void FindAllStudent() throws Exception {
+         List<Student> students = enrollmentService.findAllStudent();
+         students.forEach(System.out::println);
+     }
+
+     static void FindAllCourse() throws Exception {
+         List<Course> courses = enrollmentService.findAllCourse();
+         courses.forEach(System.out::println);
      }
 }

@@ -24,4 +24,8 @@ public interface EnrollmentService {
     void deleteStudent(int id) throws Exception;
 
     void deleteCourse(int id) throws Exception;
+
+    List<Student> findAllStudent() throws Exception;
+
+    List<Course> findAllCourse() throws Exception;
 }
