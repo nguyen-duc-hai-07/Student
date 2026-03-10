@@ -15,9 +15,13 @@ public interface EnrollmentService {
 
     List<StudentCourseDTO> viewAllEnrollments() throws Exception;
 
-    List<StudentCourseDTO> viewStudentToCourses(int studentId) throws Exception;
+    List<Course> viewStudentToCourses(int studentId) throws Exception;
 
-    List<StudentCourseDTO> viewCourseToStudents(int courseId) throws Exception;
+    List<Student> viewCourseToStudents(int courseId) throws Exception;
 
     void cancelEnrollment(int id) throws Exception;
+
+    void deleteStudent(int id) throws Exception;
+
+    void deleteCourse(int id) throws Exception;
 }

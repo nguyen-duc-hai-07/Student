@@ -7,8 +7,7 @@ import model.StudentCourse;
 import service.EnrollmentService;
 import service.impl.EnrollmentServiceImpl;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
      private static final EnrollmentService enrollmentService = new EnrollmentServiceImpl();
@@ -23,6 +22,8 @@ public class Main {
              System.out.println("5. View courses by student");
              System.out.println("6. View students by course");
              System.out.println("7. Cancel enrollment");
+             System.out.println("8. delete student");
+             System.out.println("9. delete course");
              System.out.println("0. Exit");
              System.out.println("Nhập lựa chọn: ");
              int choice = sc.nextInt();
@@ -50,13 +51,19 @@ public class Main {
                  case 7:
                      Cancel();
                      break;
+                 case 8:
+                     DeleteStudent();
+                     break;
+                 case 9:
+                     DeleteCourse();
+                     break;
                  case 0:
                      return;
              }
          }
      }
 
-     static void AddStudent() throws Exception {
+     static void AddStudent() throws Exception{
          System.out.print("Nhập tên: ");
          String name = sc.nextLine();
          System.out.print("Nhập email: ");
@@ -109,7 +116,7 @@ public class Main {
          int studentId = sc.nextInt();
          sc.nextLine();
 
-         List<StudentCourseDTO> studentCourses = enrollmentService.viewStudentToCourses(studentId);
+         List<Course> studentCourses = enrollmentService.viewStudentToCourses(studentId);
          studentCourses.forEach(System.out::println);
 
      }
@@ -119,7 +126,7 @@ public class Main {
          int courseId = sc.nextInt();
          sc.nextLine();
 
-         List<StudentCourseDTO> studentCourses = enrollmentService.viewCourseToStudents(courseId);
+         List<Student> studentCourses = enrollmentService.viewCourseToStudents(courseId);
          studentCourses.forEach(System.out::println);
 
      }
@@ -129,5 +136,18 @@ public class Main {
          int id = sc.nextInt();
          sc.nextLine();
          enrollmentService.cancelEnrollment(id);
+     }
+
+     static void DeleteStudent() throws Exception {
+         System.out.print("Nhập student id: ");
+         int id = sc.nextInt();
+         sc.nextLine();
+         enrollmentService.deleteStudent(id);
+     }
+     static void DeleteCourse() throws Exception {
+         System.out.print("Nhập course id: ");
+         int id = sc.nextInt();
+         sc.nextLine();
+         enrollmentService.deleteCourse(id);
      }
 }

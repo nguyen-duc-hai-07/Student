@@ -63,58 +63,6 @@ public class StudentCourseDAOImpl implements StudentCourseDAO {
         }
     }
 
-
-    public List<StudentCourseDTO> findByStudent(Connection conn , int studentId) throws Exception {
-        List<StudentCourseDTO> studentCourses = new ArrayList<>();
-        String sql = """
-                SELECT sc.id , s.name AS studentName, c.name AS courseName, c.credits 
-                FROM student_course sc
-                JOIN students s ON sc.student_id = s.id
-                JOIN courses c ON sc.course_id = c.id
-                WHERE sc.student_id = ?
-                """;
-        try(PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, studentId);
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()) {
-                StudentCourseDTO studentCourseDTO = new StudentCourseDTO();
-                studentCourseDTO.setId(rs.getInt("id"));
-                studentCourseDTO.setStudentName(rs.getString("studentName"));
-                studentCourseDTO.setCourseName(rs.getString("courseName"));
-                studentCourseDTO.setCredits(rs.getInt("credits"));
-                studentCourses.add(studentCourseDTO);
-            }
-            return studentCourses;
-        }
-    }
-
-    public List<StudentCourseDTO> findByCourse(Connection conn , int CourseId) throws Exception {
-        List<StudentCourseDTO> studentCourses = new ArrayList<>();
-        String sql = """
-                SELECT sc.id , s.name AS studentName, c.name AS courseName, c.credits 
-                FROM student_course sc
-                JOIN students s ON sc.student_id = s.id
-                JOIN courses c ON sc.course_id = c.id
-                WHERE sc.course_id = ?
-                """;
-
-        try(PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, CourseId);
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()) {
-                StudentCourseDTO studentCourseDTO = new StudentCourseDTO();
-                studentCourseDTO.setId(rs.getInt("id"));
-                studentCourseDTO.setStudentName(rs.getString("studentName"));
-                studentCourseDTO.setCourseName(rs.getString("courseName"));
-                studentCourseDTO.setCredits(rs.getInt("credits"));
-                studentCourses.add(studentCourseDTO);
-            }
-            return studentCourses;
-        }
-    }
-
     public void delete(Connection conn, int id) throws Exception {
         String sql = "DELETE FROM student_course WHERE id = ?";
         try(PreparedStatement ps = conn.prepareStatement(sql)) {

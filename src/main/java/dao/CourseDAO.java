@@ -1,6 +1,7 @@
 package dao;
 
 import model.Course;
+import model.Student;
 
 import java.sql.Connection;
 import java.util.List;
@@ -13,4 +14,7 @@ public interface CourseDAO {
 
     List<Course> findAll(Connection conn) throws Exception;
 
+    void delete(Connection conn, int id) throws Exception;
+
+    List<Student> findByCourse(Connection conn, int courseId) throws Exception;
 }

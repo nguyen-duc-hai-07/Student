@@ -64,4 +64,37 @@ public class StudentDAOImpl implements StudentDAO {
         }
         return students;
     }
+
+    public void delete(Connection conn, int id) throws Exception {
+        String sql = "DELETE FROM students WHERE id = ?";
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public List<Course> findByStudent(Connection conn, int studentId) throws Exception {
+        String sql = """
+                SELECT c.id, c.name, c.credits
+                FROM students s
+                JOIN student_course sc ON s.id = sc.student_id
+                JOIN courses c ON sc.course_id = c.id
+                WHERE s.id = ?
+                """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            ResultSet rs = ps.executeQuery();
+            List<Course> courses = new ArrayList<>();
+            while(rs.next()) {
+                courses.add(new Course(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("credits")
+                ));
+            }
+            return courses;
+        }
+    }
 }

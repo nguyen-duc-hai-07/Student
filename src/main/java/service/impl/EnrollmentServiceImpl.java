@@ -124,11 +124,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<StudentCourseDTO> viewStudentToCourses(int studentId) throws Exception {
+    public List<Course> viewStudentToCourses(int studentId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<StudentCourseDTO> studentCourses = studentCourseDAO.findByStudent(conn, studentId);
+            List<Course> studentCourses = studentDAO.findByStudent(conn, studentId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
@@ -145,11 +145,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<StudentCourseDTO> viewCourseToStudents(int courseId) throws Exception {
+    public List<Student> viewCourseToStudents(int courseId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<StudentCourseDTO> studentCourses = studentCourseDAO.findByCourse(conn, courseId);
+            List<Student> studentCourses = courseDAO.findByCourse(conn, courseId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
@@ -181,6 +181,46 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
             conn.commit();
 
+        } catch (Exception e) {
+            try {
+                if(conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            throw e;
+        } finally {
+            conn.close();
+        }
+    }
+
+    public void deleteStudent(int id) throws Exception {
+        Connection conn = null;
+        try {
+            conn = pool.getConnection();
+            studentDAO.delete(conn, id);
+            conn.commit();
+        } catch (Exception e) {
+            try {
+                if(conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            throw e;
+        } finally {
+            conn.close();
+        }
+    }
+
+    public void deleteCourse(int id) throws Exception {
+        Connection conn = null;
+        try {
+            conn = pool.getConnection();
+            courseDAO.delete(conn, id);
+            conn.commit();
         } catch (Exception e) {
             try {
                 if(conn != null) {

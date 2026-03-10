@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.CourseDAO;
 import model.Course;
+import model.Student;
 
 import java.util.*;
 import java.sql.Connection;
@@ -56,6 +57,40 @@ public class CourseDAOImpl implements CourseDAO {
                 ));
             }
             return courses;
+        }
+    }
+
+    public void delete(Connection conn, int id) throws Exception {
+        String sql = "DELETE FROM courses WHERE id = ?";
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+
+    public List<Student> findByCourse(Connection conn, int courseId) throws Exception {
+        String sql = """
+                SELECT s.id, s.name, s.email, s.phone
+                FROM courses c
+                JOIN student_course sc ON c.id = sc.course_id
+                JOIN students s ON sc.student_id = s.id
+                WHERE c.id = ?
+                """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            List<Student> students = new ArrayList<>();
+            while(rs.next()) {
+                students.add(new Student(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("phone")
+                ));
+            }
+            return students;
         }
     }
 }
