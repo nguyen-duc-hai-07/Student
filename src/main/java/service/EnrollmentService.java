@@ -1,6 +1,8 @@
 package service;
 
+import dto.CourseResponse;
 import dto.StudentCourseDTO;
+import dto.StudentResponse;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
@@ -15,9 +17,9 @@ public interface EnrollmentService {
 
     List<StudentCourseDTO> viewAllEnrollments() throws Exception;
 
-    List<Course> viewStudentToCourses(int studentId) throws Exception;
+    List<CourseResponse> viewStudentToCourses(int studentId) throws Exception;
 
-    List<Student> viewCourseToStudents(int courseId) throws Exception;
+    List<StudentResponse> viewCourseToStudents(int courseId) throws Exception;
 
     void cancelEnrollment(int id) throws Exception;
 

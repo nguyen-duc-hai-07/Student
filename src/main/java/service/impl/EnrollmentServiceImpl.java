@@ -7,7 +7,9 @@ import dao.StudentDAO;
 import dao.impl.CourseDAOImpl;
 import dao.impl.StudentCourseDAOImpl;
 import dao.impl.StudentDAOImpl;
+import dto.CourseResponse;
 import dto.StudentCourseDTO;
+import dto.StudentResponse;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
@@ -124,11 +126,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<Course> viewStudentToCourses(int studentId) throws Exception {
+    public List<CourseResponse> viewStudentToCourses(int studentId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<Course> studentCourses = studentDAO.findByStudent(conn, studentId);
+            List<CourseResponse> studentCourses = studentDAO.findByStudent(conn, studentId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
@@ -145,11 +147,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<Student> viewCourseToStudents(int courseId) throws Exception {
+    public List<StudentResponse> viewCourseToStudents(int courseId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<Student> studentCourses = courseDAO.findByCourse(conn, courseId);
+            List<StudentResponse> studentCourses = courseDAO.findByCourse(conn, courseId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
