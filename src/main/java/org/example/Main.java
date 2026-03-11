@@ -1,6 +1,8 @@
 package org.example;
 
+import dto.CourseResponse;
 import dto.StudentCourseDTO;
+import dto.StudentResponse;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
@@ -124,7 +126,7 @@ public class Main {
          int studentId = sc.nextInt();
          sc.nextLine();
 
-         List<Course> studentCourses = enrollmentService.viewStudentToCourses(studentId);
+         List<CourseResponse> studentCourses = enrollmentService.viewStudentToCourses(studentId);
          studentCourses.forEach(System.out::println);
 
      }
@@ -134,7 +136,7 @@ public class Main {
          int courseId = sc.nextInt();
          sc.nextLine();
 
-         List<Student> studentCourses = enrollmentService.viewCourseToStudents(courseId);
+         List<StudentResponse> studentCourses = enrollmentService.viewCourseToStudents(courseId);
          studentCourses.forEach(System.out::println);
 
      }
