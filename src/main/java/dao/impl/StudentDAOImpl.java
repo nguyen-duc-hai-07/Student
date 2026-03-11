@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.StudentDAO;
+import dto.CourseResponse;
 import model.Course;
 import model.Student;
 
@@ -74,7 +75,7 @@ public class StudentDAOImpl implements StudentDAO {
         }
     }
 
-    public List<Course> findByStudent(Connection conn, int studentId) throws Exception {
+    public List<CourseResponse> findByStudent(Connection conn, int studentId) throws Exception {
         String sql = """
                 SELECT c.id, c.name, c.credits
                 FROM students s
@@ -86,9 +87,9 @@ public class StudentDAOImpl implements StudentDAO {
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
-            List<Course> courses = new ArrayList<>();
+            List<CourseResponse> courses = new ArrayList<>();
             while(rs.next()) {
-                courses.add(new Course(
+                courses.add(new CourseResponse(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getInt("credits")
