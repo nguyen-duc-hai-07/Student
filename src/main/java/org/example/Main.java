@@ -6,13 +6,19 @@ import dto.StudentResponse;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
+import service.CourseService;
 import service.EnrollmentService;
+import service.StudentService;
+import service.impl.CourseServiceImpl;
 import service.impl.EnrollmentServiceImpl;
+import service.impl.StudentServiceImpl;
 
 import java.util.*;
 
 public class Main {
      private static final EnrollmentService enrollmentService = new EnrollmentServiceImpl();
+     private static final StudentService studentService = new StudentServiceImpl();
+     private static final CourseService courseService = new CourseServiceImpl();
      private static final Scanner sc = new Scanner(System.in);
 
      public static void main(String[] args) throws Exception {
@@ -82,7 +88,7 @@ public class Main {
          String phone = sc.nextLine();
 
          Student student = new Student(name, email, phone);
-         enrollmentService.addStudent(student);
+         studentService.addStudent(student);
 
          System.out.println("Nhập thành công!");
      }
@@ -95,7 +101,7 @@ public class Main {
          sc.nextLine();
 
          Course course = new Course(name, credits);
-         enrollmentService.addCourse(course);
+         courseService.addCourse(course);
 
          System.out.println("Nhập thành công!");
      }
@@ -126,7 +132,7 @@ public class Main {
          int studentId = sc.nextInt();
          sc.nextLine();
 
-         List<CourseResponse> studentCourses = enrollmentService.viewStudentToCourses(studentId);
+         List<CourseResponse> studentCourses = studentService.viewStudentToCourses(studentId);
          studentCourses.forEach(System.out::println);
 
      }
@@ -136,7 +142,7 @@ public class Main {
          int courseId = sc.nextInt();
          sc.nextLine();
 
-         List<StudentResponse> studentCourses = enrollmentService.viewCourseToStudents(courseId);
+         List<StudentResponse> studentCourses = courseService.viewCourseToStudents(courseId);
          studentCourses.forEach(System.out::println);
 
      }
@@ -152,23 +158,23 @@ public class Main {
          System.out.print("Nhập student id: ");
          int id = sc.nextInt();
          sc.nextLine();
-         enrollmentService.deleteStudent(id);
+         studentService.deleteStudent(id);
      }
 
      static void DeleteCourse() throws Exception {
          System.out.print("Nhập course id: ");
          int id = sc.nextInt();
          sc.nextLine();
-         enrollmentService.deleteCourse(id);
+         courseService.deleteCourse(id);
      }
 
      static void FindAllStudent() throws Exception {
-         List<Student> students = enrollmentService.findAllStudent();
+         List<Student> students = studentService.findAllStudent();
          students.forEach(System.out::println);
      }
 
      static void FindAllCourse() throws Exception {
-         List<Course> courses = enrollmentService.findAllCourse();
+         List<Course> courses = courseService.findAllCourse();
          courses.forEach(System.out::println);
      }
 }
