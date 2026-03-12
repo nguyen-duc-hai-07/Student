@@ -2,49 +2,24 @@ package service.impl;
 
 import config.DBConnectionPool;
 import dao.CourseDAO;
-import dao.StudentCourseDAO;
-import dao.StudentDAO;
 import dao.impl.CourseDAOImpl;
-import dao.impl.StudentCourseDAOImpl;
-import dao.impl.StudentDAOImpl;
-import dto.CourseResponse;
-import dto.StudentCourseDTO;
 import dto.StudentResponse;
 import model.Course;
-import model.Student;
-import model.StudentCourse;
-import service.EnrollmentService;
+import service.CourseService;
 
 import java.sql.Connection;
-import java.util.*;
+import java.util.List;
 
-public class EnrollmentServiceImpl implements EnrollmentService {
-
+public class CourseServiceImpl implements CourseService {
     private final DBConnectionPool pool = DBConnectionPool.getInstance();
     private final CourseDAO courseDAO = new CourseDAOImpl();
-    private final StudentCourseDAO studentCourseDAO = new StudentCourseDAOImpl();
-    private final StudentDAO studentDAO = new StudentDAOImpl();
 
-
-    public void enrollCourse(int studentId , int courseId) throws Exception {
-
+    public void addCourse(Course course) throws Exception {
         Connection conn = null;
-
         try {
             conn = pool.getConnection();
 
-            Student student = studentDAO.findById(conn, studentId);
-            if(student == null) {
-                throw new Exception("Student not found");
-            }
-
-            Course course = courseDAO.findById(conn, courseId);
-            if(course == null) {
-                throw new Exception("Course not found");
-            }
-
-            StudentCourse studentCourse = new StudentCourse(studentId, courseId);
-            studentCourseDAO.insert(conn,studentCourse);
+            courseDAO.insert(conn, course);
 
             conn.commit();
         } catch (Exception e) {
@@ -61,11 +36,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public List<StudentCourseDTO> viewAllEnrollments() throws Exception {
+    public List<StudentResponse> viewCourseToStudents(int courseId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
-            List<StudentCourseDTO> studentCourses = studentCourseDAO.findAll(conn);
+            List<StudentResponse> studentCourses = courseDAO.findByCourse(conn, courseId);
             conn.commit();
             return studentCourses;
         } catch (Exception e) {
@@ -82,21 +57,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
-    public void cancelEnrollment(int id) throws Exception {
+    public void deleteCourse(int id) throws Exception {
         Connection conn = null;
-
         try {
             conn = pool.getConnection();
-
-            StudentCourse studentCourse = studentCourseDAO.findById(conn, id);
-            if(studentCourse == null) {
-                throw new Exception("Student Course not found");
-            }
-
-            studentCourseDAO.delete(conn, id);
-
+            courseDAO.delete(conn, id);
             conn.commit();
-
         } catch (Exception e) {
             try {
                 if(conn != null) {
@@ -111,4 +77,24 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
     }
 
+    public List<Course> findAllCourse() throws Exception {
+        Connection conn = null;
+        try {
+            conn = pool.getConnection();
+            List<Course> courses = courseDAO.findAll(conn);
+            conn.commit();
+            return courses;
+        } catch (Exception e) {
+            try {
+                if(conn != null) {
+                    conn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            throw e;
+        } finally {
+            conn.close();
+        }
+    }
 }
