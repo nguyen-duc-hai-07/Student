@@ -88,7 +88,8 @@ public class CourseDAOImpl implements CourseDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("phone")
+                        rs.getString("phone"),
+                        null
                 ));
             }
             return students;

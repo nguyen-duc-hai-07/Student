@@ -92,7 +92,8 @@ public class StudentDAOImpl implements StudentDAO {
                 courses.add(new CourseResponse(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getInt("credits")
+                        rs.getInt("credits"),
+                        null
                 ));
             }
             return courses;
