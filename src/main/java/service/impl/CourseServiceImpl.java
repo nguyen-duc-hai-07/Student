@@ -3,6 +3,7 @@ package service.impl;
 import config.DBConnectionPool;
 import dao.CourseDAO;
 import dao.impl.CourseDAOImpl;
+import dto.CourseResponse;
 import dto.StudentResponse;
 import model.Course;
 import service.CourseService;
@@ -32,17 +33,30 @@ public class CourseServiceImpl implements CourseService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
-    public List<StudentResponse> viewCourseToStudents(int courseId) throws Exception {
+    public CourseResponse viewCourseToStudents(int courseId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
+
+            Course course = courseDAO.findById(conn, courseId);
+            if(course == null) {
+                throw new Exception("Course not found");
+            }
+
             List<StudentResponse> studentCourses = courseDAO.findByCourse(conn, courseId);
             conn.commit();
-            return studentCourses;
+            return new CourseResponse(
+                    course.getId(),
+                    course.getName(),
+                    course.getCredits(),
+                    studentCourses
+            );
         } catch (Exception e) {
             try {
                 if(conn != null) {
@@ -53,7 +67,9 @@ public class CourseServiceImpl implements CourseService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -73,7 +89,9 @@ public class CourseServiceImpl implements CourseService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -94,7 +112,9 @@ public class CourseServiceImpl implements CourseService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 }

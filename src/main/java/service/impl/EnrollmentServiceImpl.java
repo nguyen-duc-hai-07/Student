@@ -57,7 +57,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -78,7 +80,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -107,7 +111,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 

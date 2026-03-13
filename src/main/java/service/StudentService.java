@@ -1,6 +1,7 @@
 package service;
 
 import dto.CourseResponse;
+import dto.StudentResponse;
 import model.Student;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface StudentService {
 
     List<Student> findAllStudent() throws Exception;
 
-    List<CourseResponse> viewStudentToCourses(int studentId) throws Exception;
+    StudentResponse viewStudentToCourses(int studentId) throws Exception;
 }

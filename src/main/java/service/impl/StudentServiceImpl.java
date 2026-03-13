@@ -4,6 +4,7 @@ import config.DBConnectionPool;
 import dao.StudentDAO;
 import dao.impl.StudentDAOImpl;
 import dto.CourseResponse;
+import dto.StudentResponse;
 import model.Student;
 import service.StudentService;
 
@@ -33,17 +34,34 @@ public class StudentServiceImpl implements StudentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
-    public List<CourseResponse> viewStudentToCourses(int studentId) throws Exception {
+    public StudentResponse viewStudentToCourses(int studentId) throws Exception {
         Connection conn = null;
         try {
             conn = pool.getConnection();
+
+            Student student = studentDAO.findById(conn, studentId);
+            if(student == null) {
+                throw new Exception("Student not found");
+            }
+
             List<CourseResponse> studentCourses = studentDAO.findByStudent(conn, studentId);
+
             conn.commit();
-            return studentCourses;
+
+            return new StudentResponse(
+                    student.getId(),
+                    student.getName(),
+                    student.getEmail(),
+                    student.getPhone(),
+                    studentCourses
+            );
+
         } catch (Exception e) {
             try {
                 if(conn != null) {
@@ -54,7 +72,9 @@ public class StudentServiceImpl implements StudentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -74,7 +94,9 @@ public class StudentServiceImpl implements StudentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 
@@ -95,7 +117,9 @@ public class StudentServiceImpl implements StudentService {
             }
             throw e;
         } finally {
-            conn.close();
+            if(conn != null) {
+                conn.close();
+            }
         }
     }
 }
