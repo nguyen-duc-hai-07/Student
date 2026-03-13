@@ -5,7 +5,6 @@ import dto.StudentCourseDTO;
 import dto.StudentResponse;
 import model.Course;
 import model.Student;
-import model.StudentCourse;
 import service.CourseService;
 import service.EnrollmentService;
 import service.StudentService;
@@ -16,165 +15,207 @@ import service.impl.StudentServiceImpl;
 import java.util.*;
 
 public class Main {
-     private static final EnrollmentService enrollmentService = new EnrollmentServiceImpl();
-     private static final StudentService studentService = new StudentServiceImpl();
-     private static final CourseService courseService = new CourseServiceImpl();
-     private static final Scanner sc = new Scanner(System.in);
+    private static final EnrollmentService enrollmentService = new EnrollmentServiceImpl();
+    private static final StudentService studentService = new StudentServiceImpl();
+    private static final CourseService courseService = new CourseServiceImpl();
+    private static final Scanner sc = new Scanner(System.in);
 
-     public static void main(String[] args) throws Exception {
-         while(true) {
-             System.out.println("1. Add Student");
-             System.out.println("2. Add Course");
-             System.out.println("3. Enroll Course");
-             System.out.println("4. View all");
-             System.out.println("5. View courses by student");
-             System.out.println("6. View students by course");
-             System.out.println("7. Cancel enrollment");
-             System.out.println("8. delete student");
-             System.out.println("9. delete course");
-             System.out.println("10. Find all student");
-             System.out.println("11. Find all course");
-             System.out.println("0. Exit");
-             System.out.println("Nhập lựa chọn: ");
-             int choice = sc.nextInt();
-             sc.nextLine();
+    public static void main(String[] args)  {
+        while(true) {
+            System.out.println("1. Add Student");
+            System.out.println("2. Add Course");
+            System.out.println("3. Enroll Course");
+            System.out.println("4. View all");
+            System.out.println("5. View courses by student");
+            System.out.println("6. View students by course");
+            System.out.println("7. Cancel enrollment");
+            System.out.println("8. delete student");
+            System.out.println("9. delete course");
+            System.out.println("10. Find all student");
+            System.out.println("11. Find all course");
+            System.out.println("0. Exit");
+            System.out.println("Nhập lựa chọn: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-             switch (choice) {
-                 case 1:
-                     AddStudent();
-                     break;
-                 case 2:
-                     AddCourse();
-                     break;
-                 case 3:
-                     EnrollCourse();
-                     break;
-                 case 4:
-                     ViewAll();
-                     break;
-                 case 5:
-                     ViewStudentToCourses();
-                     break;
-                 case 6:
-                     ViewCourseToStudents();
-                     break;
-                 case 7:
-                     Cancel();
-                     break;
-                 case 8:
-                     DeleteStudent();
-                     break;
-                 case 9:
-                     DeleteCourse();
-                     break;
-                 case 10:
-                     FindAllStudent();
-                     break;
-                 case 11:
-                     FindAllCourse();
-                     break;
-                 case 0:
-                     return;
-             }
-         }
-     }
+            switch (choice) {
+                case 1:
+                    AddStudent();
+                    break;
+                case 2:
+                    AddCourse();
+                    break;
+                case 3:
+                    EnrollCourse();
+                    break;
+                case 4:
+                    ViewAll();
+                    break;
+                case 5:
+                    ViewStudentToCourses();
+                    break;
+                case 6:
+                    ViewCourseToStudents();
+                    break;
+                case 7:
+                    Cancel();
+                    break;
+                case 8:
+                    DeleteStudent();
+                    break;
+                case 9:
+                    DeleteCourse();
+                    break;
+                case 10:
+                    FindAllStudent();
+                    break;
+                case 11:
+                    FindAllCourse();
+                    break;
+                default:
+                    System.out.println("Mời nhập lại");
+                    break;
+                case 0:
+                    return;
+            }
+        }
+    }
 
-     static void AddStudent() throws Exception{
-         System.out.print("Nhập tên: ");
-         String name = sc.nextLine();
-         System.out.print("Nhập email: ");
-         String email = sc.nextLine();
-         System.out.print("Nhập số điện thoại: ");
-         String phone = sc.nextLine();
+    static void AddStudent() {
+        try {
+            System.out.print("Nhập tên: ");
+            String name = sc.nextLine();
+            System.out.print("Nhập email: ");
+            String email = sc.nextLine();
+            System.out.print("Nhập số điện thoại: ");
+            String phone = sc.nextLine();
 
-         Student student = new Student(name, email, phone);
-         studentService.addStudent(student);
+            Student student = new Student(name, email, phone);
+            studentService.addStudent(student);
 
-         System.out.println("Nhập thành công!");
-     }
+            System.out.println("Nhập thành công!");
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-     static void AddCourse() throws Exception {
-         System.out.print("Nhập tên: ");
-         String name = sc.nextLine();
-         System.out.print("Nhập số tín chỉ: ");
-         int credits = sc.nextInt();
-         sc.nextLine();
+    static void AddCourse() {
+        try {
+            System.out.print("Nhập tên: ");
+            String name = sc.nextLine();
+            System.out.print("Nhập số tín chỉ: ");
+            int credits = sc.nextInt();
+            sc.nextLine();
 
-         Course course = new Course(name, credits);
-         courseService.addCourse(course);
+            Course course = new Course(name, credits);
+            courseService.addCourse(course);
 
-         System.out.println("Nhập thành công!");
-     }
+            System.out.println("Nhập thành công!");
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-     static void EnrollCourse() throws Exception {
-         System.out.print("Nhập student id: ");
-         int studentId = sc.nextInt();
-         sc.nextLine();
-         System.out.print("Nhập course id: ");
-         int courseId = sc.nextInt();
-         sc.nextLine();
+    static void EnrollCourse() {
+        try {
+            System.out.print("Nhập student id: ");
+            int studentId = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Nhập course id: ");
+            int courseId = sc.nextInt();
+            sc.nextLine();
 
-         enrollmentService.enrollCourse(studentId, courseId);
+            enrollmentService.enrollCourse(studentId, courseId);
 
-         System.out.println("Đăng kí thành công!");
-     }
+            System.out.println("Đăng kí thành công!");
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-     static void ViewAll() throws Exception {
+    static void ViewAll() {
+        try {
+            List<StudentCourseDTO> studentCourses = enrollmentService.viewAllEnrollments();
+            studentCourses.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-         List<StudentCourseDTO> studentCourses = enrollmentService.viewAllEnrollments();
-         studentCourses.forEach(System.out::println);
+    static void ViewStudentToCourses() {
+        try {
+            System.out.print("Nhập Student ID: ");
+            int studentId = sc.nextInt();
+            sc.nextLine();
+            StudentResponse studentCourses = studentService.viewStudentToCourses(studentId);
+            System.out.println(studentCourses);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
 
-     }
+    }
 
-     static void ViewStudentToCourses() throws Exception {
+    static void ViewCourseToStudents() {
+        try {
+            System.out.print("Nhập Course ID: ");
+            int courseId = sc.nextInt();
+            sc.nextLine();
+            CourseResponse studentCourses = courseService.viewCourseToStudents(courseId);
+            System.out.println(studentCourses);
 
-         System.out.print("Nhập Student ID: ");
-         int studentId = sc.nextInt();
-         sc.nextLine();
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-         List<CourseResponse> studentCourses = studentService.viewStudentToCourses(studentId);
-         studentCourses.forEach(System.out::println);
+    static void Cancel()  {
+        try {
+            System.out.print("Nhập id muốn hủy đăng kí: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            enrollmentService.cancelEnrollment(id);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-     }
+    static void DeleteStudent() {
+        try {
+            System.out.print("Nhập student id: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            studentService.deleteStudent(id);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-     static void ViewCourseToStudents() throws Exception {
-         System.out.print("Nhập Course ID: ");
-         int courseId = sc.nextInt();
-         sc.nextLine();
+    static void DeleteCourse() {
+        try {
+            System.out.print("Nhập course id: ");
+            int id = sc.nextInt();
+            sc.nextLine();
+            courseService.deleteCourse(id);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-         List<StudentResponse> studentCourses = courseService.viewCourseToStudents(courseId);
-         studentCourses.forEach(System.out::println);
+    static void FindAllStudent() {
+        try {
+            List<Student> students = studentService.findAllStudent();
+            students.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 
-     }
-
-     static void Cancel() throws Exception {
-         System.out.print("Nhập id muốn hủy đăng kí: ");
-         int id = sc.nextInt();
-         sc.nextLine();
-         enrollmentService.cancelEnrollment(id);
-     }
-
-     static void DeleteStudent() throws Exception {
-         System.out.print("Nhập student id: ");
-         int id = sc.nextInt();
-         sc.nextLine();
-         studentService.deleteStudent(id);
-     }
-
-     static void DeleteCourse() throws Exception {
-         System.out.print("Nhập course id: ");
-         int id = sc.nextInt();
-         sc.nextLine();
-         courseService.deleteCourse(id);
-     }
-
-     static void FindAllStudent() throws Exception {
-         List<Student> students = studentService.findAllStudent();
-         students.forEach(System.out::println);
-     }
-
-     static void FindAllCourse() throws Exception {
-         List<Course> courses = courseService.findAllCourse();
-         courses.forEach(System.out::println);
-     }
+    static void FindAllCourse() {
+        try {
+            List<Course> courses = courseService.findAllCourse();
+            courses.forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
+    }
 }
