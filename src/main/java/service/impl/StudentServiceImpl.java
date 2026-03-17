@@ -12,8 +12,13 @@ import java.sql.Connection;
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
-    private final DBConnectionPool pool = DBConnectionPool.getInstance();
-    private final StudentDAO studentDAO = new StudentDAOImpl();
+    private final DBConnectionPool pool;
+    private final StudentDAO studentDAO;
+
+    public StudentServiceImpl(DBConnectionPool pool, StudentDAO studentDAO) {
+        this.pool = DBConnectionPool.getInstance();
+        this.studentDAO = new StudentDAOImpl();
+    }
 
     public void addStudent(Student student) throws Exception {
         Connection conn = null;

@@ -20,10 +20,17 @@ import java.util.*;
 
 public class EnrollmentServiceImpl implements EnrollmentService {
 
-    private final DBConnectionPool pool = DBConnectionPool.getInstance();
-    private final CourseDAO courseDAO = new CourseDAOImpl();
-    private final StudentCourseDAO studentCourseDAO = new StudentCourseDAOImpl();
-    private final StudentDAO studentDAO = new StudentDAOImpl();
+    private final DBConnectionPool pool;
+    private final CourseDAO courseDAO;
+    private final StudentCourseDAO studentCourseDAO;
+    private final StudentDAO studentDAO;
+
+    public EnrollmentServiceImpl(DBConnectionPool pool, CourseDAO courseDAO, StudentCourseDAO studentCourseDAO, StudentDAO studentDAO) {
+        this.pool = DBConnectionPool.getInstance();
+        this.courseDAO = new CourseDAOImpl();
+        this.studentCourseDAO = new StudentCourseDAOImpl();
+        this.studentDAO = new StudentDAOImpl();
+    }
 
 
     public void enrollCourse(int studentId , int courseId) throws Exception {

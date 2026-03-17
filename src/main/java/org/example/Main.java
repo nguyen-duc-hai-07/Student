@@ -1,5 +1,12 @@
 package org.example;
 
+import config.DBConnectionPool;
+import dao.CourseDAO;
+import dao.StudentCourseDAO;
+import dao.StudentDAO;
+import dao.impl.CourseDAOImpl;
+import dao.impl.StudentCourseDAOImpl;
+import dao.impl.StudentDAOImpl;
 import dto.CourseResponse;
 import dto.StudentCourseDTO;
 import dto.StudentResponse;
@@ -15,9 +22,14 @@ import service.impl.StudentServiceImpl;
 import java.util.*;
 
 public class Main {
-    private static final EnrollmentService enrollmentService = new EnrollmentServiceImpl();
-    private static final StudentService studentService = new StudentServiceImpl();
-    private static final CourseService courseService = new CourseServiceImpl();
+    private static final DBConnectionPool pool = DBConnectionPool.getInstance();
+    private static final CourseDAO courseDAO = new CourseDAOImpl();
+    private static final StudentDAO studentDAO = new StudentDAOImpl();
+    private static final StudentCourseDAO studentCourseDAO = new StudentCourseDAOImpl();
+
+    private static final EnrollmentService enrollmentService = new EnrollmentServiceImpl(pool,courseDAO,studentCourseDAO,studentDAO);
+    private static final StudentService studentService = new StudentServiceImpl(pool,studentDAO);
+    private static final CourseService courseService = new CourseServiceImpl(pool,courseDAO);
     private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args)  {
