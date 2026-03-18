@@ -16,8 +16,8 @@ public class StudentServiceImpl implements StudentService {
     private final StudentDAO studentDAO;
 
     public StudentServiceImpl(DBConnectionPool pool, StudentDAO studentDAO) {
-        this.pool = DBConnectionPool.getInstance();
-        this.studentDAO = new StudentDAOImpl();
+        this.pool = pool;
+        this.studentDAO = studentDAO;
     }
 
     public void addStudent(Student student) throws Exception {

@@ -16,8 +16,8 @@ public class CourseServiceImpl implements CourseService {
     private final CourseDAO courseDAO;
 
     public CourseServiceImpl(DBConnectionPool pool, CourseDAO courseDAO) {
-        this.pool = DBConnectionPool.getInstance();
-        this.courseDAO = new CourseDAOImpl();
+        this.pool = pool;
+        this.courseDAO = courseDAO;
     }
 
     public void addCourse(Course course) throws Exception {

@@ -26,10 +26,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final StudentDAO studentDAO;
 
     public EnrollmentServiceImpl(DBConnectionPool pool, CourseDAO courseDAO, StudentCourseDAO studentCourseDAO, StudentDAO studentDAO) {
-        this.pool = DBConnectionPool.getInstance();
-        this.courseDAO = new CourseDAOImpl();
-        this.studentCourseDAO = new StudentCourseDAOImpl();
-        this.studentDAO = new StudentDAOImpl();
+        this.pool = pool;
+        this.courseDAO = courseDAO;
+        this.studentCourseDAO = studentCourseDAO;
+        this.studentDAO = studentDAO;
     }
 
 
