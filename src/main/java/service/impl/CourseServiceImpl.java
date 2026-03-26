@@ -6,11 +6,13 @@ import dao.impl.CourseDAOImpl;
 import dto.CourseResponse;
 import dto.StudentResponse;
 import model.Course;
+import org.springframework.stereotype.Service;
 import service.CourseService;
 
 import java.sql.Connection;
 import java.util.List;
 
+@Service
 public class CourseServiceImpl implements CourseService {
     private final DBConnectionPool pool;
     private final CourseDAO courseDAO;

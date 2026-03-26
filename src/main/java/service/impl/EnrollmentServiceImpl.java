@@ -13,11 +13,13 @@ import dto.StudentResponse;
 import model.Course;
 import model.Student;
 import model.StudentCourse;
+import org.springframework.stereotype.Service;
 import service.EnrollmentService;
 
 import java.sql.Connection;
 import java.util.*;
 
+@Service
 public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final DBConnectionPool pool;
