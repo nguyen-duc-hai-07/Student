@@ -17,13 +17,11 @@ import java.util.*;
 @Service
 public class EnrollmentServiceImpl implements EnrollmentService {
 
-    private final DBConnectionPool pool;
     private final CourseDAO courseDAO;
     private final StudentCourseDAO studentCourseDAO;
     private final StudentDAO studentDAO;
 
-    public EnrollmentServiceImpl(DBConnectionPool pool, CourseDAO courseDAO, StudentCourseDAO studentCourseDAO, StudentDAO studentDAO) {
-        this.pool = pool;
+    public EnrollmentServiceImpl( CourseDAO courseDAO, StudentCourseDAO studentCourseDAO, StudentDAO studentDAO) {
         this.courseDAO = courseDAO;
         this.studentCourseDAO = studentCourseDAO;
         this.studentDAO = studentDAO;
@@ -35,7 +33,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         Connection conn = null;
 
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
 
             Student student = studentDAO.findById(conn, studentId);
             if(student == null) {
@@ -70,7 +68,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public List<StudentCourseDTO> viewAllEnrollments() throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
             List<StudentCourseDTO> studentCourses = studentCourseDAO.findAll(conn);
             conn.commit();
             return studentCourses;
@@ -94,7 +92,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         Connection conn = null;
 
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
 
             StudentCourse studentCourse = studentCourseDAO.findById(conn, id);
             if(studentCourse == null) {

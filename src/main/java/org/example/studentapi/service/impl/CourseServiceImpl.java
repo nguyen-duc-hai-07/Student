@@ -13,18 +13,16 @@ import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-    private final DBConnectionPool pool;
     private final CourseDAO courseDAO;
 
-    public CourseServiceImpl(DBConnectionPool pool, CourseDAO courseDAO) {
-        this.pool = pool;
+    public CourseServiceImpl( CourseDAO courseDAO) {
         this.courseDAO = courseDAO;
     }
 
     public void addCourse(Course course) throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
 
             courseDAO.insert(conn, course);
 
@@ -48,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseResponse viewCourseToStudents(int courseId) throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
 
             Course course = courseDAO.findById(conn, courseId);
             if(course == null) {
@@ -82,7 +80,7 @@ public class CourseServiceImpl implements CourseService {
     public void deleteCourse(int id) throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
             courseDAO.delete(conn, id);
             conn.commit();
         } catch (Exception e) {
@@ -104,7 +102,7 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAllCourse() throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
             List<Course> courses = courseDAO.findAll(conn);
             conn.commit();
             return courses;

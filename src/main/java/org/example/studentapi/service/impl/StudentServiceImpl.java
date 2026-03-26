@@ -13,11 +13,9 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final DBConnectionPool pool;
     private final StudentDAO studentDAO;
 
-    public StudentServiceImpl(DBConnectionPool pool, StudentDAO studentDAO) {
-        this.pool = pool;
+    public StudentServiceImpl(StudentDAO studentDAO) {
         this.studentDAO = studentDAO;
     }
 
@@ -25,7 +23,7 @@ public class StudentServiceImpl implements StudentService {
         Connection conn = null;
 
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
 
             studentDAO.insert(conn, student);
 
@@ -49,7 +47,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentResponse viewStudentToCourses(int studentId) throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
 
             Student student = studentDAO.findById(conn, studentId);
             if(student == null) {
@@ -87,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(int id) throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
             studentDAO.delete(conn, id);
             conn.commit();
         } catch (Exception e) {
@@ -109,7 +107,7 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> findAllStudent() throws Exception {
         Connection conn = null;
         try {
-            conn = pool.getConnection();
+            conn = DBConnectionPool.getInstance().getConnection();
             List<Student> students = studentDAO.findAll(conn);
             conn.commit();
             return students;
