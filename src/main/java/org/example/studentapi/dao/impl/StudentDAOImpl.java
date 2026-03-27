@@ -1,7 +1,7 @@
 package org.example.studentapi.dao.impl;
 
 import org.example.studentapi.dao.StudentDAO;
-import org.example.studentapi.dto.CourseResponse;
+import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.model.Student;
 import org.springframework.stereotype.Repository;
 

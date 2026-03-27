@@ -1,6 +1,7 @@
 package org.example.studentapi.controller;
 
-import org.example.studentapi.dto.StudentResponse;
+import org.example.studentapi.dto.request.StudentRequest;
+import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Student;
 import org.springframework.web.bind.annotation.*;
 import org.example.studentapi.service.StudentService;
@@ -26,12 +27,13 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student addStudent(@RequestBody Student student) throws Exception {
+    public Student add(@RequestBody StudentRequest quest) throws Exception {
+        Student student = new Student(quest.getName(), quest.getEmail(), quest.getPhone());
         studentService.addStudent(student);
         return student;
     }
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable int id) throws Exception {
+    public void delete(@PathVariable int id) throws Exception {
         studentService.deleteStudent(id);
     }
 }

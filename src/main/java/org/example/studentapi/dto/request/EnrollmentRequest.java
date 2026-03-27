@@ -1,4 +1,4 @@
-package org.example.studentapi.dto;
+package org.example.studentapi.dto.request;
 
 public class EnrollmentRequest {
     public int studentId;

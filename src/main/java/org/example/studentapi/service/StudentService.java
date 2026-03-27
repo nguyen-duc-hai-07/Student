@@ -1,6 +1,6 @@
 package org.example.studentapi.service;
 
-import org.example.studentapi.dto.StudentResponse;
+import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Student;
 
 import java.util.List;

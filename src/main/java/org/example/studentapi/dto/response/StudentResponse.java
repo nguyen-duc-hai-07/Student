@@ -1,4 +1,4 @@
-package org.example.studentapi.dto;
+package org.example.studentapi.dto.response;
 
 import java.util.*;
 

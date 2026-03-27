@@ -1,7 +1,7 @@
 package org.example.studentapi.controller;
 
-import org.example.studentapi.dto.EnrollmentRequest;
-import org.example.studentapi.dto.StudentCourseDTO;
+import org.example.studentapi.dto.request.EnrollmentRequest;
+import org.example.studentapi.dto.response.StudentCourseDTO;
 import org.springframework.web.bind.annotation.*;
 import org.example.studentapi.service.EnrollmentService;
 
@@ -15,19 +15,18 @@ public class EnrollmentController {
         this.enrollmentService = enrollmentService;
     }
 
-
     @GetMapping
-    public List<StudentCourseDTO> getAllEnrollments() throws Exception {
+    public List<StudentCourseDTO> getAll() throws Exception {
         return enrollmentService.viewAllEnrollments();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEnrollment(@PathVariable int id) throws Exception {
+    public void delete(@PathVariable int id) throws Exception {
         enrollmentService.cancelEnrollment(id);
     }
 
     @PostMapping
-    public void createEnrollment(@RequestBody EnrollmentRequest enrollmentRequest) throws Exception {
+    public void create(@RequestBody EnrollmentRequest enrollmentRequest) throws Exception {
         enrollmentService.enrollCourse(enrollmentRequest.getStudentId(), enrollmentRequest.getCourseId());
     }
 }

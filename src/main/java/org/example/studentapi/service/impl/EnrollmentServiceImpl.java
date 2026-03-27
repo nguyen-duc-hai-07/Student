@@ -4,7 +4,7 @@ import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.CourseDAO;
 import org.example.studentapi.dao.StudentCourseDAO;
 import org.example.studentapi.dao.StudentDAO;
-import org.example.studentapi.dto.StudentCourseDTO;
+import org.example.studentapi.dto.response.StudentCourseDTO;
 import org.example.studentapi.model.Course;
 import org.example.studentapi.model.Student;
 import org.example.studentapi.model.StudentCourse;

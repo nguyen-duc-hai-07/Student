@@ -1,6 +1,7 @@
 package org.example.studentapi.controller;
 
-import org.example.studentapi.dto.CourseResponse;
+import org.example.studentapi.dto.request.CourseRequest;
+import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.model.Course;
 import org.springframework.web.bind.annotation.*;
 import org.example.studentapi.service.CourseService;
@@ -26,12 +27,13 @@ public class CourseController {
     }
 
     @PostMapping
-    public Course addCourse(@RequestBody Course course) throws Exception {
+    public Course add(@RequestBody CourseRequest quest) throws Exception {
+        Course course = new Course(quest.getName(), quest.getCredits());
         courseService.addCourse(course);
         return course;
     }
     @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable int id) throws Exception {
+    public void delete(@PathVariable int id) throws Exception {
         courseService.deleteCourse(id);
     }
 }

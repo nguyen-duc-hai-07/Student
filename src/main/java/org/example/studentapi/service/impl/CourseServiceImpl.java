@@ -2,8 +2,8 @@ package org.example.studentapi.service.impl;
 
 import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.CourseDAO;
-import org.example.studentapi.dto.CourseResponse;
-import org.example.studentapi.dto.StudentResponse;
+import org.example.studentapi.dto.response.CourseResponse;
+import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Course;
 import org.springframework.stereotype.Service;
 import org.example.studentapi.service.CourseService;

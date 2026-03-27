@@ -1,6 +1,6 @@
 package org.example.studentapi.dao;
 
-import org.example.studentapi.dto.StudentCourseDTO;
+import org.example.studentapi.dto.response.StudentCourseDTO;
 import org.example.studentapi.model.StudentCourse;
 
 import java.util.*;

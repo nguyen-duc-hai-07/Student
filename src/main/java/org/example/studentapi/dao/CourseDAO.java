@@ -1,6 +1,6 @@
 package org.example.studentapi.dao;
 
-import org.example.studentapi.dto.StudentResponse;
+import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Course;
 
 import java.sql.Connection;
