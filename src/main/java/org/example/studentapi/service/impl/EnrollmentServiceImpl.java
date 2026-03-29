@@ -10,13 +10,15 @@ import org.example.studentapi.model.Student;
 import org.example.studentapi.model.StudentCourse;
 import org.springframework.stereotype.Service;
 import org.example.studentapi.service.EnrollmentService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.util.*;
 
 @Service
 public class EnrollmentServiceImpl implements EnrollmentService {
 
+    private static final Logger logger = LoggerFactory.getLogger(EnrollmentServiceImpl.class);
     private final CourseDAO courseDAO;
     private final StudentCourseDAO studentCourseDAO;
     private final StudentDAO studentDAO;
@@ -37,19 +39,21 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
             Student student = studentDAO.findById(conn, studentId);
             if(student == null) {
-                throw new Exception("Student not found");
+                logger.warn("Student not found: id={}", studentId);
             }
 
             Course course = courseDAO.findById(conn, courseId);
             if(course == null) {
-                throw new Exception("Course not found");
+                logger.warn("Course not found: id={}", courseId);
             }
 
             StudentCourse studentCourse = new StudentCourse(studentId, courseId);
             studentCourseDAO.insert(conn,studentCourse);
 
             conn.commit();
+            logger.info("Student enrolled in course: studentId={}, courseId={}", studentId, courseId);
         } catch (Exception e) {
+            logger.error("Failed to enroll student in course: studentId={}, courseId={}", studentId, courseId);
             try {
                 if(conn != null) {
                     conn.rollback();
@@ -71,8 +75,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             conn = DBConnectionPool.getInstance().getConnection();
             List<StudentCourseDTO> studentCourses = studentCourseDAO.findAll(conn);
             conn.commit();
+            logger.info("Found {} enrollments", studentCourses.size());
             return studentCourses;
         } catch (Exception e) {
+            logger.error("Failed to fetch enrollments: {}", e.getMessage());
             try {
                 if(conn != null) {
                     conn.rollback();
@@ -96,14 +102,16 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
             StudentCourse studentCourse = studentCourseDAO.findById(conn, id);
             if(studentCourse == null) {
-                throw new Exception("Student Course not found");
+                logger.warn("Enrollment not found: id={}", id);
             }
 
             studentCourseDAO.delete(conn, id);
 
             conn.commit();
 
+            logger.info("Enrollment cancelled: id={}", id);
         } catch (Exception e) {
+            logger.error("Failed to cancel enrollment id={}: {}", id, e.getMessage());
             try {
                 if(conn != null) {
                     conn.rollback();

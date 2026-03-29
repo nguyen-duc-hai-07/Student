@@ -5,6 +5,8 @@ import org.example.studentapi.dao.StudentDAO;
 import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Student;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.example.studentapi.service.StudentService;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
+    private static final Logger log = LoggerFactory.getLogger(StudentServiceImpl.class);
     private final StudentDAO studentDAO;
 
     public StudentServiceImpl(StudentDAO studentDAO) {
@@ -21,86 +25,17 @@ public class StudentServiceImpl implements StudentService {
 
     public void addStudent(Student student) throws Exception {
         Connection conn = null;
-
         try {
             conn = DBConnectionPool.getInstance().getConnection();
-
             studentDAO.insert(conn, student);
-
             conn.commit();
+            log.info("Student added successfully: id={}", student.getId());
         } catch (Exception e) {
-            try {
-                if(conn != null) {
-                    conn.rollback();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            log.error("Failed to add student: {}", e.getMessage());
+            try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             throw e;
         } finally {
-            if(conn != null) {
-                conn.close();
-            }
-        }
-    }
-
-    public StudentResponse viewStudentToCourses(int studentId) throws Exception {
-        Connection conn = null;
-        try {
-            conn = DBConnectionPool.getInstance().getConnection();
-
-            Student student = studentDAO.findById(conn, studentId);
-            if(student == null) {
-                throw new Exception("Student not found");
-            }
-
-            List<CourseResponse> studentCourses = studentDAO.findByStudent(conn, studentId);
-
-            conn.commit();
-
-            return new StudentResponse(
-                    student.getId(),
-                    student.getName(),
-                    student.getEmail(),
-                    student.getPhone(),
-                    studentCourses
-            );
-
-        } catch (Exception e) {
-            try {
-                if(conn != null) {
-                    conn.rollback();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            throw e;
-        } finally {
-            if(conn != null) {
-                conn.close();
-            }
-        }
-    }
-
-    public void deleteStudent(int id) throws Exception {
-        Connection conn = null;
-        try {
-            conn = DBConnectionPool.getInstance().getConnection();
-            studentDAO.delete(conn, id);
-            conn.commit();
-        } catch (Exception e) {
-            try {
-                if(conn != null) {
-                    conn.rollback();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            throw e;
-        } finally {
-            if(conn != null) {
-                conn.close();
-            }
+            if(conn != null) conn.close();
         }
     }
 
@@ -110,20 +45,59 @@ public class StudentServiceImpl implements StudentService {
             conn = DBConnectionPool.getInstance().getConnection();
             List<Student> students = studentDAO.findAll(conn);
             conn.commit();
+            log.info("Found {} students", students.size());
             return students;
         } catch (Exception e) {
-            try {
-                if(conn != null) {
-                    conn.rollback();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            log.error("Failed to fetch students: {}", e.getMessage());
+            try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             throw e;
         } finally {
-            if(conn != null) {
-                conn.close();
+            if(conn != null) conn.close();
+        }
+    }
+
+    public void deleteStudent(int id) throws Exception {
+        log.debug("Deleting student id={}", id);
+        Connection conn = null;
+        try {
+            conn = DBConnectionPool.getInstance().getConnection();
+            Student student = studentDAO.findById(conn, id);
+            if(student == null) {
+                log.warn("Student not found: id={}", id);
             }
+            studentDAO.delete(conn, id);
+            conn.commit();
+            log.info("Student deleted: id={}", id);
+        } catch (Exception e) {
+            log.error("Failed to delete student id={}: {}", id, e.getMessage());
+            try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
+            throw e;
+        } finally {
+            if(conn != null) conn.close();
+        }
+    }
+
+    public StudentResponse viewStudentToCourses(int studentId) throws Exception {
+        log.debug("Fetching courses for student id={}", studentId);
+        Connection conn = null;
+        try {
+            conn = DBConnectionPool.getInstance().getConnection();
+            Student student = studentDAO.findById(conn, studentId);
+            if(student == null) {
+                log.warn("Student not found: id={}", studentId);
+                throw new Exception("Student not found");
+            }
+            List<CourseResponse> studentCourses = studentDAO.findByStudent(conn, studentId);
+            conn.commit();
+            log.info("Found {} courses for student id={}", studentCourses.size(), studentId);
+            return new StudentResponse(student.getId(), student.getName(),
+                    student.getEmail(), student.getPhone(), studentCourses);
+        } catch (Exception e) {
+            log.error("Failed to fetch student courses: {}", e.getMessage());
+            try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
+            throw e;
+        } finally {
+            if(conn != null) conn.close();
         }
     }
 }
