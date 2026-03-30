@@ -10,6 +10,12 @@ public class StudentCourseDTO {
         this.courseName = courseName;
         this.credits = credits;
     }
+    public StudentCourseDTO(int id, String studentName, String courseName, int credits) {
+        this.id = id;
+        this.studentName = studentName;
+        this.courseName = courseName;
+        this.credits = credits;
+    }
     public StudentCourseDTO() {}
 
     public String getStudentName() {

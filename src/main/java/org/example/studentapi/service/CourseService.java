@@ -7,7 +7,7 @@ import org.example.studentapi.model.Course;
 import java.util.List;
 
 public interface CourseService {
-    Course addCourse(CourseRequest quest) throws Exception;
+    CourseResponse addCourse(CourseRequest quest) throws Exception;
 
     CourseResponse viewCourseToStudents(int courseId) throws Exception;
 

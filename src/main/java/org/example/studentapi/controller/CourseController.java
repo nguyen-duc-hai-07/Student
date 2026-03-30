@@ -19,29 +19,49 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<Course> getAllCourse() throws Exception {
-        logger.info("API GET/api/courses được gọi");
+    public List<Course> getAllCourse() {
+        try {
+            logger.info("API GET/api/courses được gọi");
 
-        return courseService.findAllCourse();
+            return courseService.findAllCourse();
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public CourseResponse findStudentByCourseId(@PathVariable int id) throws Exception {
+    public CourseResponse findStudentByCourseId(@PathVariable int id) {
+        try {
 
-        logger.info("API GET/api/courses/{} được gọi", id);
+            logger.info("API GET/api/courses/{} được gọi", id);
 
-        return courseService.viewCourseToStudents(id);
+            return courseService.viewCourseToStudents(id);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping
-    public Course add(@RequestBody CourseRequest quest) throws Exception {
-        logger.info("API POST/api/courses được gọi");
-        return courseService.addCourse(quest);
+    public CourseResponse add(@RequestBody CourseRequest quest)  {
+        try {
+            logger.info("API POST/api/courses được gọi");
+            return courseService.addCourse(quest);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) throws Exception {
-        logger.info("API DELETE/api/courses/{}", id);
-        courseService.deleteCourse(id);
-        logger.info("xóa thành công course id = {}", id);
+    public void delete(@PathVariable int id) {
+        try {
+            logger.info("API DELETE/api/courses/{}", id);
+            courseService.deleteCourse(id);
+            logger.info("xóa thành công course id = {}", id);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

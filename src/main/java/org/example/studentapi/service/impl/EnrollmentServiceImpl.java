@@ -31,7 +31,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
 
-    public StudentCourse enrollCourse(EnrollmentRequest quest) throws Exception {
+    public StudentCourseDTO enrollCourse(EnrollmentRequest quest) throws Exception {
 
         Connection conn = null;
 
@@ -41,11 +41,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             Student student = studentDAO.findById(conn, quest.getStudentId());
             if(student == null) {
                 logger.warn("Student not found: id={}", quest.getStudentId());
+                throw new Exception("Student not found");
             }
 
             Course course = courseDAO.findById(conn, quest.getCourseId());
             if(course == null) {
                 logger.warn("Course not found: id={}", quest.getCourseId() );
+                throw new Exception("Course not found");
             }
 
             StudentCourse studentCourse = new StudentCourse(quest.getStudentId(), quest.getCourseId());
@@ -53,9 +55,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
             conn.commit();
             logger.info("Student enrolled in course: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId());
-            return studentCourse;
+            return new StudentCourseDTO(
+                    studentCourse.getId(),
+                    student.getName(),
+                    course.getName(),
+                    course.getCredits()
+            );
         } catch (Exception e) {
-            logger.error("Failed to enroll student in course: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId());
+            logger.error("Failed to enroll student in course: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId(),e);
             try {
                 if(conn != null) {
                     conn.rollback();

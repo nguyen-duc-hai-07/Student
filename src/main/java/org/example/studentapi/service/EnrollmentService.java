@@ -9,7 +9,7 @@ import java.util.*;
 public interface EnrollmentService {
 
 
-    StudentCourse enrollCourse(EnrollmentRequest quest) throws Exception;
+    StudentCourseDTO enrollCourse(EnrollmentRequest quest) throws Exception;
 
     List<StudentCourseDTO> viewAllEnrollments() throws Exception;
 

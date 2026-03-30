@@ -19,31 +19,51 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getAllStudent() throws Exception {
-        logger.info("API GET /api/students được gọi");
+    public List<Student> getAllStudent() {
+        try {
+            logger.info("API GET /api/students được gọi");
 
-        return studentService.findAllStudent();
+            return studentService.findAllStudent();
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public StudentResponse findCourseByStudentId(@PathVariable int id) throws Exception {
-        logger.info("API GET /api/students/{} được gọi", id);
+    public StudentResponse findCourseByStudentId(@PathVariable int id) {
+        try {
+            logger.info("API GET /api/students/{} được gọi", id);
 
-        return studentService.viewStudentToCourses(id);
+            return studentService.viewStudentToCourses(id);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping
-    public Student add(@RequestBody StudentRequest quest) throws Exception {
-        logger.info("API POST /api/students được gọi");
+    public StudentResponse add(@RequestBody StudentRequest quest) {
+        try {
+            logger.info("API POST /api/students được gọi");
 
-        return studentService.addStudent(quest);
+            return studentService.addStudent(quest);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) throws Exception {
-        logger.info("API DELETE /api/students/{} được gọi", id);
+    public void delete(@PathVariable int id) {
+        try {
+            logger.info("API DELETE /api/students/{} được gọi", id);
 
-        studentService.deleteStudent(id);
+            studentService.deleteStudent(id);
 
-        logger.info("Xóa student thành công id={}", id);
+            logger.info("Xóa student thành công id={}", id);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

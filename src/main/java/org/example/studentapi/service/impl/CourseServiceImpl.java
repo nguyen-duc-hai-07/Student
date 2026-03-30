@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
         this.courseDAO = courseDAO;
     }
 
-    public Course addCourse(CourseRequest quest) throws Exception {
+    public CourseResponse addCourse(CourseRequest quest) throws Exception {
         Course course = new Course(quest.getName(), quest.getCredits());
 
         Connection conn = null;
@@ -35,7 +35,7 @@ public class CourseServiceImpl implements CourseService {
 
             logger.info("Course added successfully: id={}", course.getId());
 
-            return course;
+            return new CourseResponse(course.getId(), course.getName(), course.getCredits(), null);
         } catch (Exception e) {
             logger.error("Failed to add course: {}", e.getMessage());
             try {

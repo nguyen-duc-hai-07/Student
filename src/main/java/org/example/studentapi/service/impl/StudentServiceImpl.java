@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
         this.studentDAO = studentDAO;
     }
 
-    public Student addStudent(StudentRequest quest) throws Exception {
+    public StudentResponse addStudent(StudentRequest quest) throws Exception {
         Student student = new Student(quest.getName(), quest.getEmail(), quest.getPhone());
         Connection conn = null;
         try {
@@ -32,7 +32,13 @@ public class StudentServiceImpl implements StudentService {
             studentDAO.insert(conn, student);
             conn.commit();
             log.info("Student added successfully: id={}", student.getId());
-            return student;
+            return new StudentResponse(
+                    student.getId(),
+                    student.getName(),
+                    student.getEmail(),
+                    student.getPhone(),
+                    null
+            );
         } catch (Exception e) {
             log.error("Failed to add student: {}", e.getMessage());
             try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }

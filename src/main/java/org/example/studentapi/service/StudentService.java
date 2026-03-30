@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    Student addStudent(StudentRequest quest) throws Exception;
+    StudentResponse addStudent(StudentRequest quest) throws Exception;
 
     void deleteStudent(int id) throws Exception;
 

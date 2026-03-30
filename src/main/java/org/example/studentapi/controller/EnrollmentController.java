@@ -19,24 +19,38 @@ public class EnrollmentController {
     }
 
     @GetMapping
-    public List<StudentCourseDTO> getAll() throws Exception {
+    public List<StudentCourseDTO> getAll() {
+        try {
 
-        logger.info("API GET/api/enrollments");
+            logger.info("API GET/api/enrollments");
 
-        return enrollmentService.viewAllEnrollments();
-
+            return enrollmentService.viewAllEnrollments();
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) throws Exception {
-        logger.info("API DELETE /api/enrollments/{} được gọi", id);
-        enrollmentService.cancelEnrollment(id);
-        logger.info("Xóa enrollment thành công id={}", id);
+    public void delete(@PathVariable int id) {
+        try {
+            logger.info("API DELETE /api/enrollments/{} được gọi", id);
+            enrollmentService.cancelEnrollment(id);
+            logger.info("Xóa enrollment thành công id={}", id);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping
-    public StudentCourse create(@RequestBody EnrollmentRequest enrollmentRequest) throws Exception {
-        logger.info("API POST /api/enrollments được gọi");
-        return enrollmentService.enrollCourse(enrollmentRequest);
+    public StudentCourseDTO create(@RequestBody EnrollmentRequest enrollmentRequest) {
+        try {
+            logger.info("API POST /api/enrollments được gọi");
+            return enrollmentService.enrollCourse(enrollmentRequest);
+        } catch (Exception e) {
+            logger.error("Error: ", e);
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
