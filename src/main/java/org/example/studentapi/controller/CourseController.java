@@ -21,26 +21,22 @@ public class CourseController {
     @GetMapping
     public List<Course> getAllCourse() throws Exception {
         logger.info("API GET/api/courses được gọi");
-        List<Course> courses = courseService.findAllCourse();
-        logger.info("trả về {} courses", courses.size());
-        return courses;
+
+        return courseService.findAllCourse();
     }
 
     @GetMapping("/{id}")
     public CourseResponse findStudentByCourseId(@PathVariable int id) throws Exception {
+
         logger.info("API GET/api/courses/{} được gọi", id);
-        CourseResponse response = courseService.viewCourseToStudents(id);
-        logger.info("trả về thông tin courses id = {}" , id);
-        return response;
+
+        return courseService.viewCourseToStudents(id);
     }
 
     @PostMapping
     public Course add(@RequestBody CourseRequest quest) throws Exception {
         logger.info("API POST/api/courses được gọi");
-        Course course = new Course(quest.getName(), quest.getCredits());
-        courseService.addCourse(course);
-        logger.info("Thêm course thành công: {}", course.getName());
-        return course;
+        return courseService.addCourse(quest);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception {

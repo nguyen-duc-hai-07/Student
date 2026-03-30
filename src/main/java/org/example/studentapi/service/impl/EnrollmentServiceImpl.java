@@ -4,6 +4,7 @@ import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.CourseDAO;
 import org.example.studentapi.dao.StudentCourseDAO;
 import org.example.studentapi.dao.StudentDAO;
+import org.example.studentapi.dto.request.EnrollmentRequest;
 import org.example.studentapi.dto.response.StudentCourseDTO;
 import org.example.studentapi.model.Course;
 import org.example.studentapi.model.Student;
@@ -30,30 +31,31 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
 
-    public void enrollCourse(int studentId , int courseId) throws Exception {
+    public StudentCourse enrollCourse(EnrollmentRequest quest) throws Exception {
 
         Connection conn = null;
 
         try {
             conn = DBConnectionPool.getInstance().getConnection();
 
-            Student student = studentDAO.findById(conn, studentId);
+            Student student = studentDAO.findById(conn, quest.getStudentId());
             if(student == null) {
-                logger.warn("Student not found: id={}", studentId);
+                logger.warn("Student not found: id={}", quest.getStudentId());
             }
 
-            Course course = courseDAO.findById(conn, courseId);
+            Course course = courseDAO.findById(conn, quest.getCourseId());
             if(course == null) {
-                logger.warn("Course not found: id={}", courseId);
+                logger.warn("Course not found: id={}", quest.getCourseId() );
             }
 
-            StudentCourse studentCourse = new StudentCourse(studentId, courseId);
+            StudentCourse studentCourse = new StudentCourse(quest.getStudentId(), quest.getCourseId());
             studentCourseDAO.insert(conn,studentCourse);
 
             conn.commit();
-            logger.info("Student enrolled in course: studentId={}, courseId={}", studentId, courseId);
+            logger.info("Student enrolled in course: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId());
+            return studentCourse;
         } catch (Exception e) {
-            logger.error("Failed to enroll student in course: studentId={}, courseId={}", studentId, courseId);
+            logger.error("Failed to enroll student in course: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId());
             try {
                 if(conn != null) {
                     conn.rollback();

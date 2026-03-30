@@ -21,33 +21,22 @@ public class StudentController {
     @GetMapping
     public List<Student> getAllStudent() throws Exception {
         logger.info("API GET /api/students được gọi");
-        List<Student> students = studentService.findAllStudent();
-        logger.info("Trả về {} students", students.size());
-        return students;
+
+        return studentService.findAllStudent();
     }
 
     @GetMapping("/{id}")
     public StudentResponse findCourseByStudentId(@PathVariable int id) throws Exception {
         logger.info("API GET /api/students/{} được gọi", id);
 
-        StudentResponse response = studentService.viewStudentToCourses(id);
-
-        logger.info("Trả về thông tin student id={}", id);
-
-        return response;
+        return studentService.viewStudentToCourses(id);
     }
 
     @PostMapping
     public Student add(@RequestBody StudentRequest quest) throws Exception {
         logger.info("API POST /api/students được gọi");
 
-        Student student = new Student(quest.getName(), quest.getEmail(), quest.getPhone());
-
-        studentService.addStudent(student);
-
-        logger.info("Thêm student thành công: {}", student.getName());
-
-        return student;
+        return studentService.addStudent(quest);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception {

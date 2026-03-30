@@ -2,6 +2,7 @@ package org.example.studentapi.controller;
 
 import org.example.studentapi.dto.request.EnrollmentRequest;
 import org.example.studentapi.dto.response.StudentCourseDTO;
+import org.example.studentapi.model.StudentCourse;
 import org.springframework.web.bind.annotation.*;
 import org.example.studentapi.service.EnrollmentService;
 import org.slf4j.Logger;
@@ -19,10 +20,11 @@ public class EnrollmentController {
 
     @GetMapping
     public List<StudentCourseDTO> getAll() throws Exception {
+
         logger.info("API GET/api/enrollments");
-        List<StudentCourseDTO> dto = enrollmentService.viewAllEnrollments();
-        logger.info("Trả về {} enrollments", dto.size());
-        return dto;
+
+        return enrollmentService.viewAllEnrollments();
+
     }
 
     @DeleteMapping("/{id}")
@@ -33,13 +35,8 @@ public class EnrollmentController {
     }
 
     @PostMapping
-    public void create(@RequestBody EnrollmentRequest enrollmentRequest) throws Exception {
+    public StudentCourse create(@RequestBody EnrollmentRequest enrollmentRequest) throws Exception {
         logger.info("API POST /api/enrollments được gọi");
-        logger.info("đăng kí studentId = {}, courseId = {}" ,
-                enrollmentRequest.getStudentId(),
-                enrollmentRequest.getCourseId()
-        );
-        enrollmentService.enrollCourse(enrollmentRequest.getStudentId(), enrollmentRequest.getCourseId());
-        logger.info("Enroll thành công");
+        return enrollmentService.enrollCourse(enrollmentRequest);
     }
 }

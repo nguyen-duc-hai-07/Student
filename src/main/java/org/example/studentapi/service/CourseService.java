@@ -1,12 +1,13 @@
 package org.example.studentapi.service;
 
+import org.example.studentapi.dto.request.CourseRequest;
 import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.model.Course;
 
 import java.util.List;
 
 public interface CourseService {
-    void addCourse(Course course) throws Exception;
+    Course addCourse(CourseRequest quest) throws Exception;
 
     CourseResponse viewCourseToStudents(int courseId) throws Exception;
 

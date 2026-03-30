@@ -2,6 +2,7 @@ package org.example.studentapi.service.impl;
 
 import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.CourseDAO;
+import org.example.studentapi.dto.request.CourseRequest;
 import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Course;
@@ -21,7 +22,9 @@ public class CourseServiceImpl implements CourseService {
         this.courseDAO = courseDAO;
     }
 
-    public void addCourse(Course course) throws Exception {
+    public Course addCourse(CourseRequest quest) throws Exception {
+        Course course = new Course(quest.getName(), quest.getCredits());
+
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -31,6 +34,8 @@ public class CourseServiceImpl implements CourseService {
             conn.commit();
 
             logger.info("Course added successfully: id={}", course.getId());
+
+            return course;
         } catch (Exception e) {
             logger.error("Failed to add course: {}", e.getMessage());
             try {

@@ -2,6 +2,7 @@ package org.example.studentapi.service.impl;
 
 import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.StudentDAO;
+import org.example.studentapi.dto.request.StudentRequest;
 import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Student;
@@ -23,13 +24,15 @@ public class StudentServiceImpl implements StudentService {
         this.studentDAO = studentDAO;
     }
 
-    public void addStudent(Student student) throws Exception {
+    public Student addStudent(StudentRequest quest) throws Exception {
+        Student student = new Student(quest.getName(), quest.getEmail(), quest.getPhone());
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
             studentDAO.insert(conn, student);
             conn.commit();
             log.info("Student added successfully: id={}", student.getId());
+            return student;
         } catch (Exception e) {
             log.error("Failed to add student: {}", e.getMessage());
             try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }

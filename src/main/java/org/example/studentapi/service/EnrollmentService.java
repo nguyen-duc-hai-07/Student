@@ -1,13 +1,15 @@
 package org.example.studentapi.service;
 
+import org.example.studentapi.dto.request.EnrollmentRequest;
 import org.example.studentapi.dto.response.StudentCourseDTO;
+import org.example.studentapi.model.StudentCourse;
 
 import java.util.*;
 
 public interface EnrollmentService {
 
 
-    void enrollCourse(int studentId , int courseId) throws Exception;
+    StudentCourse enrollCourse(EnrollmentRequest quest) throws Exception;
 
     List<StudentCourseDTO> viewAllEnrollments() throws Exception;
 
