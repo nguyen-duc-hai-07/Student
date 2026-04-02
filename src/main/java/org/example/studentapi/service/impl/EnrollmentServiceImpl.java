@@ -112,6 +112,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             StudentCourse studentCourse = studentCourseDAO.findById(conn, id);
             if(studentCourse == null) {
                 logger.warn("Enrollment not found: id={}", id);
+                throw new Exception("Enrollment not found");
             }
 
             studentCourseDAO.delete(conn, id);

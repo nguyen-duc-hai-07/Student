@@ -61,6 +61,7 @@ public class CourseServiceImpl implements CourseService {
             Course course = courseDAO.findById(conn, courseId);
             if(course == null) {
                 logger.warn("Course not found: id={}", courseId);
+                throw new Exception("Course not found");
             }
             List<StudentResponse> studentCourses = courseDAO.findByCourse(conn, courseId);
             conn.commit();
@@ -95,6 +96,7 @@ public class CourseServiceImpl implements CourseService {
             Course course = courseDAO.findById(conn, id);
             if(course == null) {
                 logger.warn("Course not found: id={}", id);
+                throw new Exception("Course not found");
             }
             courseDAO.delete(conn, id);
             conn.commit();
