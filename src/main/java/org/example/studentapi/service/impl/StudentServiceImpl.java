@@ -1,23 +1,22 @@
 package org.example.studentapi.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.StudentDAO;
 import org.example.studentapi.dto.request.StudentRequest;
 import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Student;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.example.studentapi.service.StudentService;
 
 import java.sql.Connection;
 import java.util.List;
 
+@Slf4j
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private static final Logger log = LoggerFactory.getLogger(StudentServiceImpl.class);
     private final StudentDAO studentDAO;
 
     public StudentServiceImpl(StudentDAO studentDAO) {
@@ -26,6 +25,7 @@ public class StudentServiceImpl implements StudentService {
 
     public StudentResponse addStudent(StudentRequest quest) throws Exception {
         Student student = new Student(quest.getName(), quest.getEmail(), quest.getPhone());
+        log.debug("Adding student: name={}, email={}, phone={}", quest.getName(), quest.getEmail(), quest.getPhone());
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -40,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
                     null
             );
         } catch (Exception e) {
-            log.error("Failed to add student: {}", e.getMessage());
+            log.error("Failed to add student: {}", e.getMessage(),e);
             try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             throw e;
         } finally {
@@ -49,6 +49,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public List<StudentResponse> findAllStudent() throws Exception {
+        log.debug("Fetching all students");
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -57,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
             log.info("Found {} students", students.size());
             return students;
         } catch (Exception e) {
-            log.error("Failed to fetch students: {}", e.getMessage());
+            log.error("Failed to fetch students: {}", e.getMessage(),e);
             try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             throw e;
         } finally {
@@ -73,12 +74,13 @@ public class StudentServiceImpl implements StudentService {
             Student student = studentDAO.findById(conn, id);
             if(student == null) {
                 log.warn("Student not found: id={}", id);
+                throw new Exception("Student not found");
             }
             studentDAO.delete(conn, id);
             conn.commit();
             log.info("Student deleted: id={}", id);
         } catch (Exception e) {
-            log.error("Failed to delete student id={}: {}", id, e.getMessage());
+            log.error("Failed to delete student id={}: {}", id, e.getMessage(), e);
             try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             throw e;
         } finally {
@@ -102,7 +104,7 @@ public class StudentServiceImpl implements StudentService {
             return new StudentResponse(student.getId(), student.getName(),
                     student.getEmail(), student.getPhone(), studentCourses);
         } catch (Exception e) {
-            log.error("Failed to fetch student courses: {}", e.getMessage());
+            log.error("Failed to fetch student courses: {}", e.getMessage(),e);
             try { if(conn != null) conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             throw e;
         } finally {

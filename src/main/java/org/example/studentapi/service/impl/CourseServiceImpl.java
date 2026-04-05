@@ -1,5 +1,6 @@
 package org.example.studentapi.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.studentapi.config.DBConnectionPool;
 import org.example.studentapi.dao.CourseDAO;
 import org.example.studentapi.dto.request.CourseRequest;
@@ -8,23 +9,20 @@ import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Course;
 import org.springframework.stereotype.Service;
 import org.example.studentapi.service.CourseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CourseServiceImpl implements CourseService {
     private final CourseDAO courseDAO;
-    private static final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
     public CourseServiceImpl( CourseDAO courseDAO) {
         this.courseDAO = courseDAO;
     }
 
     public CourseResponse addCourse(CourseRequest quest) throws Exception {
         Course course = new Course(quest.getName(), quest.getCredits());
-
+        log.debug("Adding course: name={}, credits={}", quest.getName(), quest.getCredits());
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -33,11 +31,11 @@ public class CourseServiceImpl implements CourseService {
 
             conn.commit();
 
-            logger.info("Course added successfully: id={}", course.getId());
+            log.info("Course added successfully: id={}", course.getId());
 
             return new CourseResponse(course.getId(), course.getName(), course.getCredits(), null);
         } catch (Exception e) {
-            logger.error("Failed to add course: {}", e.getMessage());
+            log.error("Failed to add course: {}", e.getMessage(), e);
             try {
                 if(conn != null) {
                     conn.rollback();
@@ -54,18 +52,19 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public CourseResponse viewCourseToStudents(int courseId) throws Exception {
+        log.debug("Fetching students for courseId={}", courseId);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
 
             Course course = courseDAO.findById(conn, courseId);
             if(course == null) {
-                logger.warn("Course not found: id={}", courseId);
+                log.warn("Course not found: id={}", courseId);
                 throw new Exception("Course not found");
             }
             List<StudentResponse> studentCourses = courseDAO.findByCourse(conn, courseId);
             conn.commit();
-            logger.info("Found {} students for course id={}", studentCourses.size(), courseId);
+            log.info("Found {} students for course id={}", studentCourses.size(), courseId);
             return new CourseResponse(
                     course.getId(),
                     course.getName(),
@@ -73,7 +72,7 @@ public class CourseServiceImpl implements CourseService {
                     studentCourses
             );
         } catch (Exception e) {
-            logger.error("Failed to fetch course students: {}", e.getMessage());
+            log.error("Failed to fetch course students: {}", e.getMessage(),e);
             try {
                 if(conn != null) {
                     conn.rollback();
@@ -90,19 +89,20 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public void deleteCourse(int id) throws Exception {
+        log.debug("Deleting course id={}", id);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
             Course course = courseDAO.findById(conn, id);
             if(course == null) {
-                logger.warn("Course not found: id={}", id);
+                log.warn("Course not found: id={}", id);
                 throw new Exception("Course not found");
             }
             courseDAO.delete(conn, id);
             conn.commit();
-            logger.info("Course deleted: id={}", id);
+            log.info("Course deleted: id={}", id);
         } catch (Exception e) {
-            logger.error("Failed to delete course id={}: {}", id, e.getMessage());
+            log.error("Failed to delete course id={}: {}", id, e.getMessage(),e);
             try {
                 if(conn != null) {
                     conn.rollback();
@@ -119,15 +119,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public List<CourseResponse> findAllCourse() throws Exception {
+        log.debug("Fetching all courses");
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
             List<CourseResponse> courses = courseDAO.findAll(conn);
             conn.commit();
-            logger.info("Found {} courses", courses.size());
+            log.info("Found {} courses", courses.size());
             return courses;
         } catch (Exception e) {
-            logger.error("Failed to fetch courses: {}", e.getMessage());
+            log.error("Failed to fetch courses: {}", e.getMessage(),e);
             try {
                 if(conn != null) {
                     conn.rollback();
