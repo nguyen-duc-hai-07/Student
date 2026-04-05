@@ -1,6 +1,7 @@
 package org.example.studentapi.dao;
 
 import org.example.studentapi.dto.response.CourseResponse;
+import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Student;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public interface StudentDAO {
 
     Student findById(Connection conn, int id) throws Exception;
 
-    List<Student> findAll(Connection conn) throws Exception;
+    List<StudentResponse> findAll(Connection conn) throws Exception;
 
     void delete(Connection conn, int id) throws Exception;
 

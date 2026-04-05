@@ -12,7 +12,7 @@ public interface StudentService {
 
     void deleteStudent(int id) throws Exception;
 
-    List<Student> findAllStudent() throws Exception;
+    List<StudentResponse> findAllStudent() throws Exception;
 
     StudentResponse viewStudentToCourses(int studentId) throws Exception;
 }

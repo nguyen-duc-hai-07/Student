@@ -1,6 +1,7 @@
 package org.example.studentapi.dao.impl;
 
 import org.example.studentapi.dao.CourseDAO;
+import org.example.studentapi.dto.response.CourseResponse;
 import org.example.studentapi.dto.response.StudentResponse;
 import org.example.studentapi.model.Course;
 import org.springframework.stereotype.Repository;
@@ -45,18 +46,18 @@ public class CourseDAOImpl implements CourseDAO {
         }
         return null;
     }
-    public List<Course> findAll(Connection conn) throws Exception {
+    public List<CourseResponse> findAll(Connection conn) throws Exception {
         String sql = "SELECT * FROM courses";
-        List<Course> courses = new ArrayList<>();
+        List<CourseResponse> courses = new ArrayList<>();
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                courses.add(new Course(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getInt("credits")
-                ));
+                CourseResponse course = new CourseResponse();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setCredits(rs.getInt("credits"));
+                courses.add(course);
             }
             return courses;
         }

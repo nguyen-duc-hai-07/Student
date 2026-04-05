@@ -118,11 +118,11 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-    public List<Course> findAllCourse() throws Exception {
+    public List<CourseResponse> findAllCourse() throws Exception {
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
-            List<Course> courses = courseDAO.findAll(conn);
+            List<CourseResponse> courses = courseDAO.findAll(conn);
             conn.commit();
             logger.info("Found {} courses", courses.size());
             return courses;

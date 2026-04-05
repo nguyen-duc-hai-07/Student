@@ -13,5 +13,5 @@ public interface CourseService {
 
     void deleteCourse(int id) throws Exception;
 
-    List<Course> findAllCourse() throws Exception;
+    List<CourseResponse> findAllCourse() throws Exception;
 }

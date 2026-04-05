@@ -15,12 +15,17 @@ public class StudentResponse {
         this.phone = phone;
         this.courses = courses;
     }
-
+    public StudentResponse() {}
     public int getId()          { return id; }
     public String getName()     { return name; }
     public String getEmail()    { return email; }
     public String getPhone()    { return phone; }
     public List<CourseResponse> getCourses() { return courses; }
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setCourse(CourseResponse course) { this.courses.add(course); }
     @Override
     public String toString() {
         return "StudentResponse [id=" + id + ", name=" + name

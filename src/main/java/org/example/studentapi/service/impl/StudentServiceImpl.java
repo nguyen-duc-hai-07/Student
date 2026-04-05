@@ -48,11 +48,11 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-    public List<Student> findAllStudent() throws Exception {
+    public List<StudentResponse> findAllStudent() throws Exception {
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
-            List<Student> students = studentDAO.findAll(conn);
+            List<StudentResponse> students = studentDAO.findAll(conn);
             conn.commit();
             log.info("Found {} students", students.size());
             return students;
