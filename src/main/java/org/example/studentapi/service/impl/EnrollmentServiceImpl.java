@@ -31,7 +31,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 
     public StudentCourseDTO enrollCourse(EnrollmentRequest quest) throws Exception {
-        log.debug("Enrolling student: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId());
+        log.info("Enrolling student: studentId={}, courseId={}", quest.getStudentId(), quest.getCourseId());
         Connection conn = null;
 
         try {
@@ -78,7 +78,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     public List<StudentCourseDTO> viewAllEnrollments() throws Exception {
-        log.debug("Fetching all enrollments");
+        log.info("Fetching all enrollments");
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -104,7 +104,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     public void cancelEnrollment(int id) throws Exception {
-        log.debug("Canceling enrollment id={}", id);
+        log.info("Canceling enrollment id={}", id);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();

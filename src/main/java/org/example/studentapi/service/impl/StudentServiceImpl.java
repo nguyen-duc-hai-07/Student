@@ -25,7 +25,7 @@ public class StudentServiceImpl implements StudentService {
 
     public StudentResponse addStudent(StudentRequest quest) throws Exception {
         Student student = new Student(quest.getName(), quest.getEmail(), quest.getPhone());
-        log.debug("Adding student: name={}, email={}, phone={}", quest.getName(), quest.getEmail(), quest.getPhone());
+        log.info("Adding student: name={}, email={}, phone={}", quest.getName(), quest.getEmail(), quest.getPhone());
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public List<StudentResponse> findAllStudent() throws Exception {
-        log.debug("Fetching all students");
+        log.info("Fetching all students");
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -67,7 +67,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public void deleteStudent(int id) throws Exception {
-        log.debug("Deleting student id={}", id);
+        log.info("Deleting student id={}", id);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -89,7 +89,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public StudentResponse viewStudentToCourses(int studentId) throws Exception {
-        log.debug("Fetching courses for student id={}", studentId);
+        log.info("Fetching courses for student id={}", studentId);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();

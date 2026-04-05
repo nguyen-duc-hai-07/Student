@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
 
     public CourseResponse addCourse(CourseRequest quest) throws Exception {
         Course course = new Course(quest.getName(), quest.getCredits());
-        log.debug("Adding course: name={}, credits={}", quest.getName(), quest.getCredits());
+        log.info("Adding course: name={}, credits={}", quest.getName(), quest.getCredits());
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -52,7 +52,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public CourseResponse viewCourseToStudents(int courseId) throws Exception {
-        log.debug("Fetching students for courseId={}", courseId);
+        log.info("Fetching students for courseId={}", courseId);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -89,7 +89,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public void deleteCourse(int id) throws Exception {
-        log.debug("Deleting course id={}", id);
+        log.info("Deleting course id={}", id);
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
@@ -119,7 +119,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public List<CourseResponse> findAllCourse() throws Exception {
-        log.debug("Fetching all courses");
+        log.info("Fetching all courses");
         Connection conn = null;
         try {
             conn = DBConnectionPool.getInstance().getConnection();
